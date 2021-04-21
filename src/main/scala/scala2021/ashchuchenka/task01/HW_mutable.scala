@@ -2,7 +2,7 @@ package scala2021.ashchuchenka.task01
 
 import scala.collection.mutable
 
-object HW {
+object HW_mutable {
 
   def calcCounts(array: Array[String], outMap: mutable.Map[String, Int]): Array[String] = {
     val res = array.foreach(r => {
@@ -18,15 +18,12 @@ object HW {
   def processDomain(qty: Int, array: Array[String], outMap: mutable.Map[String, Int]): Unit = {
 
     val domainStr = array.mkString(".")
-
-    //Testing
     //println("Domain str = " + domainStr)
 
     if (outMap.contains(domainStr)) {
       val v = outMap(domainStr)
       outMap(domainStr) = v + qty
-      //Testing
-      //println(v.toString + "+" + qty.toString + "=" + (v + qty).toString)
+      println(v.toString + "+" + qty.toString + "=" + (v + qty).toString)
     }
     else {
       outMap.put(domainStr, qty)
