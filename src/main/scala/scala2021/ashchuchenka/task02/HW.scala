@@ -13,12 +13,12 @@ object HW {
         case _ if (b < 0) => false
         case Nil => (b == 0)
         case head::tail => {
-            val i = l.head match {
+            val i = head match {
               case '(' => 1
               case ')' => -1
               case _ => 0
             }
-            calcBracketsHelper(l.tail, b + i)
+            calcBracketsHelper(tail, b + i)
         }
       }
     }
