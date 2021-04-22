@@ -9,19 +9,18 @@ object HW {
     @tailrec
     def calcBracketsHelper(l: List[Char], balance: Int): Boolean = {
 
-      val balanceIncrement = l.head match {
-        case '(' => 1
-        case ')' => -1
-        case _ => 0
-      }
-
-      val calcBalance = balance + balanceIncrement
-
-      if (calcBalance < 0) false
-        else if (l.length == 1) {
-        if (calcBalance > 0) false else true
-      } else {
-        calcBracketsHelper(l.tail, calcBalance)
+      if (balance < 0) false
+        else
+      l match {
+        case Nil => (balance == 0)
+        case head::tail => {
+          val balanceIncrement = l.head match {
+            case '(' => 1
+            case ')' => -1
+            case _ => 0
+          }
+          calcBracketsHelper(l.tail, balance + balanceIncrement)
+        }
       }
     }
 
