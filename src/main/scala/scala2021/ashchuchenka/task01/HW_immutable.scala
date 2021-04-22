@@ -1,7 +1,5 @@
 package scala2021.ashchuchenka.task01
 
-import scala.collection.immutable
-
 object HW_immutable {
 
   def processDomain(qty: Int, array: Array[String]): Array[(Int, String)] = {
