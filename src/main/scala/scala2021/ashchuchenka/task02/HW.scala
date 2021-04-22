@@ -7,8 +7,7 @@ object HW {
   def calcBrackets(str: String): Boolean = {
 
     @tailrec
-    def calcB(l: List[Char], b: Int): Boolean =
-      l match {
+    def calcB(l: List[Char], b: Int): Boolean = l match {
         case _ if b < 0 => false
         case Nil => b == 0
         case head :: tail =>
