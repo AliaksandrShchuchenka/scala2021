@@ -10,17 +10,15 @@ object HW {
     def calcBracketsHelper(l: List[Char], b: Int): Boolean = {
 
       l match {
+        case _ if (b < 0) => false
         case Nil => (b == 0)
         case head::tail => {
-          if (b < 0) false
-          else {
             val i = l.head match {
               case '(' => 1
               case ')' => -1
               case _ => 0
             }
             calcBracketsHelper(l.tail, b + i)
-          }
         }
       }
     }
