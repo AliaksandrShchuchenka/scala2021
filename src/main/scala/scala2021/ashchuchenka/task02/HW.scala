@@ -7,19 +7,20 @@ object HW {
   def calcBrackets(str: String): Boolean = {
 
     @tailrec
-    def calcBracketsHelper(l: List[Char], balance: Int): Boolean = {
+    def calcBracketsHelper(l: List[Char], b: Int): Boolean = {
 
-      if (balance < 0) false
-        else
       l match {
-        case Nil => (balance == 0)
+        case Nil => (b == 0)
         case head::tail => {
-          val balanceIncrement = l.head match {
-            case '(' => 1
-            case ')' => -1
-            case _ => 0
+          if (b < 0) false
+          else {
+            val i = l.head match {
+              case '(' => 1
+              case ')' => -1
+              case _ => 0
+            }
+            calcBracketsHelper(l.tail, b + i)
           }
-          calcBracketsHelper(l.tail, balance + balanceIncrement)
         }
       }
     }
