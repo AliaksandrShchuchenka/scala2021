@@ -7,20 +7,19 @@ object HW {
   def calcBrackets(str: String): Boolean = {
 
     @tailrec
-    def calcBracketsHelper(l: List[Char], b: Int): Boolean =
-
+    def calcB(l: List[Char], b: Int): Boolean =
       l match {
         case _ if b < 0 => false
         case Nil => b == 0
         case head :: tail =>
           head match {
-            case '(' => calcBracketsHelper(tail, b + 1)
-            case ')' => calcBracketsHelper(tail, b - 1)
-            case _ => calcBracketsHelper(tail, b)
+            case '(' => calcB(tail, b + 1)
+            case ')' => calcB(tail, b - 1)
+            case _ => calcB(tail, b)
           }
       }
 
-    calcBracketsHelper(str.toList, 0)
+    calcB(str.toList, 0)
   }
 
   def main(args: Array[String]): Unit = {
