@@ -12,15 +12,13 @@ object HW {
       l match {
         case _ if b < 0 => false
         case Nil => b == 0
-        case head::tail => {
+        case head :: tail =>
           head match {
             case '(' => calcBracketsHelper(tail, b + 1)
             case ')' => calcBracketsHelper(tail, b - 1)
             case _ => calcBracketsHelper(tail, b)
           }
-        }
       }
-
 
     calcBracketsHelper(str.toList, 0)
   }
