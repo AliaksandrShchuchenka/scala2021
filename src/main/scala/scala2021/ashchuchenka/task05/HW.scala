@@ -54,59 +54,18 @@ object HW {
   // Найти имя менеджера по имени сотрудника, в случае ошибки в данных - указать что именно не так
   def findManagerNameOrError(employee: String): Either[String, String] = {
 
-    val emp = employees.filter(_.name == employee)
-
-    (if (!(emp.isEmpty))
-      Right(emp.flatMap(e => departments.filter(_.id == e.departmentId)))
-    else Left("Employee with name " + employee + " didn't find")) match {
-      case Right(dep) =>
-        (if (!(dep.isEmpty))
-          Right(dep.flatMap(d => managers.filter(_.department == d.name)))
-        else Left("Departament for required employee didn't find.")) match {
-          case Right(mng) =>
-            (if (!(mng.isEmpty))
-              Right(mng.flatMap(m => employees.filter(_.id == m.employeeId)))
-            else Left("Manager of department for required employee didn't find.")) match {
-              case Right(empMan) =>
-                if (!(empMan.isEmpty))
-                  Right(empMan.head.name)
-                else Left("Employee of Manager of department of required employee didn't find.")
-              case Left(i) => Left(i)
-            }
-          case Left(i) => Left(i)
-        }
-      case Left(i) => Left(i)
+    for {
+      emp <- employees.find(_.name == employee).toRight("Employee with name " + employee + " didn't find")
+      dep <- departments.find(_.id == emp.departmentId).toRight("Departament for required employee didn't find.")
+      mng <- managers.find(_.department == dep.name).toRight("Manager of department for required employee didn't find.")
+      empMan <- employees.find(_.id == mng.employeeId).toRight("Employee of Manager of department of required employee didn't find.")
     }
+      yield empMan.name
   }
 
   // Найти имя менеджера по имени сотрудника, в случае ошибки в данных - указать что именно не так и сделать все это асинхронно
   def findManagerNameOrErrorAsync(employee: String): Future[Either[String, String]] = {
-
-    Future {
-      val emp = employees.filter(_.name == employee)
-
-      (if (!(emp.isEmpty))
-        Right(emp.flatMap(e => departments.filter(_.id == e.departmentId)))
-      else Left("Employee with name " + employee + " didn't find")) match {
-        case Right(dep) =>
-          (if (!(dep.isEmpty))
-            Right(dep.flatMap(d => managers.filter(_.department == d.name)))
-          else Left("Departament for required employee didn't find.")) match {
-            case Right(mng) =>
-              (if (!(mng.isEmpty))
-                Right(mng.flatMap(m => employees.filter(_.id == m.employeeId)))
-              else Left("Manager of department for required employee didn't find.")) match {
-                case Right(empMan) =>
-                  if (!(empMan.isEmpty))
-                    Right(empMan.head.name)
-                  else Left("Employee of Manager of department of required employee didn't find.")
-                case Left(i) => Left(i)
-              }
-            case Left(i) => Left(i)
-          }
-        case Left(i) => Left(i)
-      }
-    }
+    Future {findManagerNameOrError(employee)}
   }
 
   // Найти имя менеджера по имени сотрудника, в случае ошибки в данных - указать что именно не так и сделать каждую операцию асинхронной(операция = вызов репозитория)
