@@ -114,9 +114,9 @@ object HW {
 
     for {
       empl <- EitherT.fromOption[Future](employees.find(_.name == employee), s"Employee with name $employee didn't find")
-      dep <- EitherT.fromOption[Future](departments.find(_.id == empl.departmentId), s"Departament for employee $employee didn't find")
-      mng <- EitherT.fromOption[Future](managers.find(_.department == dep.name), s"Manager of $dep department for $employee employee didn't find")
-      empMng <- EitherT.fromOption[Future](employees.find(_.id == mng.employeeId), s"Employee of $mng manager of $dep department for $employee employee didn't find")
+      dep <- EitherT.fromOption[Future](departments.find(_.id == empl.departmentId), s"Departament for required employee didn't find.")
+      mng <- EitherT.fromOption[Future](managers.find(_.department == dep.name), s"Manager of department for required employee didn't find.")
+      empMng <- EitherT.fromOption[Future](employees.find(_.id == mng.employeeId), s"Employee of Manager of department of required employee didn't find.")
     }
     yield empMng.name
 
@@ -169,9 +169,18 @@ object HW {
     )
   }
 
+  def getManagerNameOrErrorAsync(employee: String): Either[String,String] ={
+    Await.result(findManagerNameOrErrorAsync(employee), 1.seconds)
+  }
+
+  def getManagerNameOrErrorAsyncOperations(employee: String): Either[String,String] ={
+    Await.result(findManagerNameOrErrorAsyncOperations(employee).value, 1.seconds)
+  }
+
   def main(args: Array[String]): Unit = {
 
-    printManagerName("John")
+//    printManagerName("John")
+
 //        printManagerName("Steve")
 //        printManagerName("Mark")
 //        printManagerName("Igor")
@@ -187,18 +196,26 @@ object HW {
 //        printManagerNameOrError("Naveen")
 //        printManagerNameOrError("Megan")
 
-    println(findManagerNameOrError("John"))
-    println(findManagerNameOrError("Steve"))
-    println(findManagerNameOrError("Mark"))
-    println(findManagerNameOrError("Igor"))
-    println(findManagerNameOrError("Christy"))
-    println(findManagerNameOrError("Naveen"))
-    println(findManagerNameOrError("Megan"))
+//    println(findManagerNameOrError("John"))
+//    println(findManagerNameOrError("Steve"))
+//    println(findManagerNameOrError("Mark"))
+//    println(findManagerNameOrError("Igor"))
+//    println(findManagerNameOrError("Christy"))
+//    println(findManagerNameOrError("Naveen"))
+//    println(findManagerNameOrError("Megan"))
+
+//    println(getManagerNameOrErrorAsync("John"))
+//    println(getManagerNameOrErrorAsync("Steve"))
+//    println(getManagerNameOrErrorAsync("Mark"))
+//    println(getManagerNameOrErrorAsync("Igor"))
+//    println(getManagerNameOrErrorAsync("Christy"))
+//    println(getManagerNameOrErrorAsync("Naveen"))
+//    println(getManagerNameOrErrorAsync("Megan"))
 
 
-    //
-    //    val result = Await.result(findManagerNameOrErrorAsync("Mark"), 1.seconds)
-    //    println(s"result = $result")
+
+//        val result = Await.result(findManagerNameOrErrorAsync("Mark"), 1.seconds)
+//        println(s"result = $result")
 
     //    val result = Await.result(findManagerNameOrErrorAsyncOperations("Mark1"), 1.seconds)
     //    println(s"result = $result")
@@ -207,7 +224,7 @@ object HW {
     //    println(s"result = $result")
     //    findEmployeeManagers.foreach(println(_))
 
-    //println(findEmployeeManagers)
+//    println(findEmployeeManagers)
 
   }
 }
