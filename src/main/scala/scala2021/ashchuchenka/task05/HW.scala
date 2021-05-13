@@ -149,7 +149,7 @@ object HW {
   def printManagerName(employee: String): Unit = {
     val res = findManagerName(employee)
     val out = if (res.isDefined) res.get else NotFoundMessage
-    println(out)
+    println(s"$employee $out")
   }
 
   def printManagerNameOrError(employee: String): Unit = {
@@ -171,21 +171,31 @@ object HW {
 
   def main(args: Array[String]): Unit = {
 
-    //    printManagerName("John")
-    //    printManagerName("Steve")
-    //    printManagerName("Mark")
-    //    printManagerName("Igor")
-    //    printManagerName("Christy")
-    //    printManagerName("Naveen")
-    //    printManagerName("Megan")
+    printManagerName("John")
+//        printManagerName("Steve")
+//        printManagerName("Mark")
+//        printManagerName("Igor")
+//        printManagerName("Christy")
+//        printManagerName("Naveen")
+//        printManagerName("Megan")
     //
-    //    printManagerNameOrError("John")
-    //    printManagerNameOrError("Steve")
-    //    printManagerNameOrError("Mark")
-    //    printManagerNameOrError("Igor")
-    //    printManagerNameOrError("Christy")
-    //    printManagerNameOrError("Naveen")
-    //    printManagerNameOrError("Megan")
+//        printManagerNameOrError("John")
+//        printManagerNameOrError("Steve")
+//        printManagerNameOrError("Mark")
+//        printManagerNameOrError("Igor")
+//        printManagerNameOrError("Christy")
+//        printManagerNameOrError("Naveen")
+//        printManagerNameOrError("Megan")
+
+    println(findManagerNameOrError("John"))
+    println(findManagerNameOrError("Steve"))
+    println(findManagerNameOrError("Mark"))
+    println(findManagerNameOrError("Igor"))
+    println(findManagerNameOrError("Christy"))
+    println(findManagerNameOrError("Naveen"))
+    println(findManagerNameOrError("Megan"))
+
+
     //
     //    val result = Await.result(findManagerNameOrErrorAsync("Mark"), 1.seconds)
     //    println(s"result = $result")
@@ -198,5 +208,6 @@ object HW {
     //    findEmployeeManagers.foreach(println(_))
 
     //println(findEmployeeManagers)
+
   }
 }
